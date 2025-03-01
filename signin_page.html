@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+        }
+        
+        .login-container {
+            width: 400px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 1s;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        
+        .login-form {
+            margin-top: 20px;
+        }
+        
+        .login-form label {
+            margin-bottom: 10px;
+        }
+        
+        .login-form input {
+            width: 100%;
+            height: 40px;
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        
+        .login-form button {
+            width: 100%;
+            height: 40px;
+            background-color: #4CAF50;
+            color: #fff;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        .login-form button:hover {
+            background-color: #3e8e41;
+        }
+        
+        .social-login {
+            margin-top: 20px;
+        }
+        
+        .social-login a {
+            width: 100%;
+            height: 40px;
+            background-color: #3b5998;
+            color: #fff;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        
+        .social-login a.facebook {
+            background-color: #3b5998;
+        }
+        
+        .social-login a.google {
+            background-color: #dd4b39;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1;
+        }
+        
+        .modal-content {
+            width: 400px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        @media (max-width: 768px) {
+            .login-container {
+                width: 300px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .login-container {
+                width: 200px;
+            }
+        }
+        
+        #login-success-modal {
+            display: none;
+        }
+        
+        #login-success-modal .modal-content {
+            background-color: #dff0d8;
+            border: 1px solid #8bc34a;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .navbar {
+            background-color: #4CAF50;
+            padding: 1rem;
+            text-align: center;
+        }
+        
+        .navbar-brand {
+            color: #fff;
+            font-size: 2rem;
+            font-weight: bold;
+        }
+        
+        .footer {
+            background-color: #4CAF50;
+            color: #fff;
+            padding: 1rem;
+            text-align: center;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-success">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Login Page</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-4">
+                <div class="card login-container">
+                    <div class="card-body">
+                        <h2 class="text-center">Login</h2>
+                        <form class="login-form" id="login-form">
+                            <div class="mb-3">
+                                <label for="username" class="form-label">Username:</label>
+                                <input type="text" class="form-control" id="username" name="username">
+                            </div>
+                            <div class="mb-3">
+                                <label for="password" class="form-label">Password:</label>
+                                <input type="password" class="form-control" id="password" name="password">
+                            </div>
+                            <div id="password-strength" style="margin-bottom: 20px;"></div>
+                            <button type="submit" class="btn btn-success w-100">Login</button>
+                        </form>
+                        <div class="social-login">
+                            <a href="#" class="btn btn-primary w-100 mb-2">Facebook</a>
+                            <a href="#" class="btn btn-danger w-100">Google</a>
+                        </div>
+                        <p class="text-center">Forgot password? <a href="#" id="forgot-password" class="text-decoration-none">Click here</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="password-reset-modal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Reset Password</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Please enter your email address to reset your password.</p>
+                    <form id="password-reset-form">
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email:</label>
+                            <input type="email" class="form-control" id="email" name="email">
+                        </div>
+                        <button type="submit" class="btn btn-success w-100">Send Reset Link</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="login-success-modal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Login Success</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>You have logged in successfully.</p>
+                    <button type="button" class="btn btn-success w-100" id="close-modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer">
+        <p>&copy; 2023 Login Page. All rights reserved.</p>
+        <ul class="list-inline">
+            <li class="list-inline-item"><a href="#" class="text-decoration-none text-white"><i class="fa-brands fa-facebook"></i></a></li>
+            <li class="list-inline-item"><a href="#" class="text-decoration-none text-white"><i class="fa-brands fa-twitter"></i></a></li>
+            <li class="list-inline-item"><a href="#" class="text-decoration-none text-white"><i class="fa-brands fa-instagram"></i></a></li>
+        </ul>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#forgot-password').click(function() {
+                $('#password-reset-modal').modal('show');
+            });
+            
+            $('#password-reset-form').submit(function(e) {
+                e.preventDefault();
+                var email = $('#email').val();
+                if (email !== "") {
+                    $.ajax({
+                        type: 'POST',
+                        url: '/send-password-reset-email',
+                        data: {email: email},
+                        success: function(data) {
+                            if (data.success) {
+                                $('#password-reset-modal .modal-body').html('Password reset link has been sent to your email.');
+                            } else {
+                                $('#password-reset-modal .modal-body').html('Email not found.');
+                            }
+                        }
+                    });
+                } else {
+                    $('#password-reset-modal .modal-body').html('Please enter your email address.');
+                }
+            });
+            
+            $('#login-form').submit(function(e) {
+                e.preventDefault();
+                var username = $('#username').val();
+                var password = $('#password').val();
+                $.ajax({
+                    type: 'POST',
+                    url: '/login',
+                    data: {username: username, password: password},
+                    success: function(data) {
+                        console.log(data);
+                        if (data.success) {
+                            $('#login-success-modal').modal('show');
+                        }
+                    }
+                });
+            });
+            
+            $('#close-modal').click(function() {
+                $('#login-success-modal').modal('hide');
+            });
+            
+            $('#password').on('input', function() {
+                var password = $(this).val();
+                var strength = 0;
+                if (password.length >= 8) {
+                    strength += 1;
+                }
+                if (/[A-Z]/.test(password)) {
+                    strength += 1;
+                }
+                if (/[a-z]/.test(password)) {
+                    strength += 1;
+                }
+                if (/[0-9]/.test(password)) {
+                    strength += 1;
+                }
+                if (/[^A-Za-z0-9]/.test(password)) {
+                    strength += 1;
+                }
+                var strengthText;
+                switch (strength) {
+                    case 0:
+                    case 1:
+                        strengthText = 'Weak';
+                        break;
+                    case 2:
+                    case 3:
+                        strengthText = 'Medium';
+                        break;
+                    case 4:
+                    case 5:
+                        strengthText = 'Strong';
+                        break;
+                }
+                $('#password-strength').html('Password strength: ' + strengthText);
+            });
+        });
+    </script>
+</body>
+</html>
