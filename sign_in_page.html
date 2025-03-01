@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            background: #f4f4f4; /* Light gray background */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            font-family: sans-serif;
+        }
+
+        .card {
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            width: 350px; /* Reduced width */
+        }
+
+        .card-header {
+            background-color: #fff;
+            text-align: center;
+            padding: 2rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .card-header h3 {
+            color: #333;
+            font-weight: 600;
+            margin-bottom: 0;
+        }
+
+        .card-body {
+            padding: 2rem;
+            background-color: #fff;
+        }
+
+        .form-group label {
+            font-weight: 500;
+            color: #555;
+        }
+
+        .form-control {
+            border-radius: 4px;
+            border: 1px solid #ddd;
+            padding: 10px;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border: none;
+            border-radius: 4px;
+            padding: 12px;
+            font-weight: 600;
+            width: 100%; /* Full width button */
+            display: block; /* Ensures centered if needed */
+            margin: 1rem auto 0; /* Center and add top margin */
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+        .social-login {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .social-login a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin: 0 5px;
+            color: white;
+        }
+
+        .social-login a.google {
+            background-color: #db4437;
+        }
+
+        .social-login a.facebook {
+            background-color: #3b5998;
+        }
+
+        #login-popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+        }
+
+        #forgot-password {
+            color: #007bff;
+            text-decoration: none;
+        }
+        #forgot-password:hover{
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="card-header">
+            <h3>Sign In</h3>
+        </div>
+        <div class="card-body">
+            <form id="login-form">
+                <div class="form-group">
+                    <label for="email">Email address</label>
+                    <input type="email" class="form-control" id="email" aria-describedby="emailHelp" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <div class="input-group">
+                        <input type="password" class="form-control" id="password" required>
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-secondary" type="button" id="toggle-password">
+                                <i class="fa fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group form-check">
+                    <input type="checkbox" class="form-check-input" id="rememberMe">
+                    <label class="form-check-label" for="rememberMe">Remember Me</label>
+                </div>
+                <button type="submit" class="btn btn-primary">Login</button>
+                <div class="social-login">
+                    <a href="#" class="google"><i class="fab fa-google"></i></a>
+                    <a href="#" class="facebook"><i class="fab fa-facebook-f"></i></a>
+                </div>
+                <div class="mt-3 text-center">
+                    <a href="#" id="forgot-password">Forgot Password?</a>
+                </div>
+                <div id="error-message" class="text-danger mt-2"></div>
+            </form>
+        </div>
+    </div>
+
+    <div id="login-popup">
+        <p>You have logged in successfully!</p>
+        <button type="button" class="btn btn-primary" onclick="closePopup()">Close</button>
+    </div>
+
+    <script>
+        // ... (JavaScript code remains the same) ...
+        const passwordField = document.getElementById('password');
+        const toggleButton = document.getElementById('toggle-password');
+        const loginForm = document.getElementById('login-form');
+        const loginPopup = document.getElementById('login-popup');
+        const errorMessage = document.getElementById('error-message');
+        const forgotPasswordLink = document.getElementById('forgot-password');
+
+        toggleButton.addEventListener('click', () => {
+            const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordField.setAttribute('type', type);
+            toggleButton.innerHTML = type === 'password' ? '<i class="fa fa-eye"></i>' : '<i class="fa fa-eye-slash"></i>';
+        });
+
+        loginForm.addEventListener('submit', (event) => {
+            event.preventDefault(); // Prevent default form submission
+
+            // Simulate login process (replace with your actual authentication logic)
+            const email = document.getElementById('email').value;
+            const password = passwordField.value;
+
+            if (email === 'user@example.com' && password === 'password') {
+                loginPopup.style.display = 'block';
+                errorMessage.textContent = ''; // Clear any previous error messages
+            } else {
+                errorMessage.textContent = 'Invalid email or password.';
+            }
+        });
+
+        forgotPasswordLink.addEventListener('click', (event) => {
+            event.preventDefault();
+            // Implement forgot password logic here (e.g., send password reset email)
+            alert('Forgot password functionality will be implemented soon.');
+        });
+
+        function closePopup() {
+            loginPopup.style.display = 'none';
+        }
+    </script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
